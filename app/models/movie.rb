@@ -2,7 +2,7 @@
 #
 # Table name: movies
 #
-#  id          :integer          not null, primary key
+#  id          :bigint           not null, primary key
 #  description :text
 #  duration    :integer
 #  image       :string
@@ -16,13 +16,7 @@ class Movie < ApplicationRecord
   validates(:director_id, presence: true)
   validates(:title, uniqueness: true)
 
-  def director
-    key = self.director_id
-
-    matching_set = Director.where({ :id => key })
-
-    the_one = matching_set.at(0)
-
-    return the_one
-  end
+  belongs_to(:director)
+  has_many(:characters)
+  # this only works if all the arguments match as they should.
 end

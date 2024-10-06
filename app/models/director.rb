@@ -2,7 +2,7 @@
 #
 # Table name: directors
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  bio        :text
 #  dob        :date
 #  image      :string
@@ -13,11 +13,14 @@
 class Director < ApplicationRecord
   validates(:name, presence: true)
 
-  def filmography
-    key = self.id
+  # in the case where we select own own non-conventional names, we need to explicitlt write our keyword arguments.
 
-    the_many = Movie.where({ :director_id => key })
+  has_many(:filmography, class_name: "Movie", foreign_key: "director_id")
+  # def filmography
+  #   key = self.id
 
-    return the_many
-  end
+  #   the_many = Movie.where({ :director_id => key })
+
+  #   return the_many
+  # end
 end
